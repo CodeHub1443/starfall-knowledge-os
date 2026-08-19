@@ -15,7 +15,9 @@ import { Route as ShellBrainRouteImport } from './routes/_shell.brain'
 import { Route as ShellChatRouteImport } from './routes/_shell.chat'
 import { Route as ShellCreateRouteImport } from './routes/_shell.create'
 import { Route as ShellHomeRouteImport } from './routes/_shell.home'
+import { Route as ShellLibraryRouteImport } from './routes/_shell.library'
 import { Route as ShellCreateIndexRouteImport } from './routes/_shell.create.index'
+import { Route as ShellCreateReviewRouteImport } from './routes/_shell.create.review'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -46,9 +48,19 @@ const ShellHomeRoute = ShellHomeRouteImport.update({
   path: '/home',
   getParentRoute: () => ShellRoute,
 } as any)
+const ShellLibraryRoute = ShellLibraryRouteImport.update({
+  id: '/library',
+  path: '/library',
+  getParentRoute: () => ShellRoute,
+} as any)
 const ShellCreateIndexRoute = ShellCreateIndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => ShellCreateRoute,
+} as any)
+const ShellCreateReviewRoute = ShellCreateReviewRouteImport.update({
+  id: '/review',
+  path: '/review',
   getParentRoute: () => ShellCreateRoute,
 } as any)
 
@@ -58,6 +70,8 @@ export interface FileRoutesByFullPath {
   '/chat': typeof ShellChatRoute
   '/create': typeof ShellCreateRouteWithChildren
   '/home': typeof ShellHomeRoute
+  '/library': typeof ShellLibraryRoute
+  '/create/review': typeof ShellCreateReviewRoute
   '/create/': typeof ShellCreateIndexRoute
 }
 export interface FileRoutesByTo {
@@ -65,6 +79,8 @@ export interface FileRoutesByTo {
   '/brain': typeof ShellBrainRoute
   '/chat': typeof ShellChatRoute
   '/home': typeof ShellHomeRoute
+  '/library': typeof ShellLibraryRoute
+  '/create/review': typeof ShellCreateReviewRoute
   '/create': typeof ShellCreateIndexRoute
 }
 export interface FileRoutesById {
@@ -75,13 +91,30 @@ export interface FileRoutesById {
   '/_shell/chat': typeof ShellChatRoute
   '/_shell/create': typeof ShellCreateRouteWithChildren
   '/_shell/home': typeof ShellHomeRoute
+  '/_shell/library': typeof ShellLibraryRoute
+  '/_shell/create/review': typeof ShellCreateReviewRoute
   '/_shell/create/': typeof ShellCreateIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/brain' | '/chat' | '/create' | '/home' | '/create/'
+  fullPaths:
+    | '/'
+    | '/brain'
+    | '/chat'
+    | '/create'
+    | '/home'
+    | '/library'
+    | '/create/review'
+    | '/create/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/brain' | '/chat' | '/home' | '/create'
+  to:
+    | '/'
+    | '/brain'
+    | '/chat'
+    | '/home'
+    | '/library'
+    | '/create/review'
+    | '/create'
   id:
     | '__root__'
     | '/'
@@ -90,6 +123,8 @@ export interface FileRouteTypes {
     | '/_shell/chat'
     | '/_shell/create'
     | '/_shell/home'
+    | '/_shell/library'
+    | '/_shell/create/review'
     | '/_shell/create/'
   fileRoutesById: FileRoutesById
 }
@@ -142,6 +177,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ShellHomeRouteImport
       parentRoute: typeof ShellRoute
     }
+    '/_shell/library': {
+      id: '/_shell/library'
+      path: '/library'
+      fullPath: '/library'
+      preLoaderRoute: typeof ShellLibraryRouteImport
+      parentRoute: typeof ShellRoute
+    }
     '/_shell/create/': {
       id: '/_shell/create/'
       path: '/'
@@ -149,14 +191,23 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ShellCreateIndexRouteImport
       parentRoute: typeof ShellCreateRoute
     }
+    '/_shell/create/review': {
+      id: '/_shell/create/review'
+      path: '/review'
+      fullPath: '/create/review'
+      preLoaderRoute: typeof ShellCreateReviewRouteImport
+      parentRoute: typeof ShellCreateRoute
+    }
   }
 }
 
 interface ShellCreateRouteChildren {
+  ShellCreateReviewRoute: typeof ShellCreateReviewRoute
   ShellCreateIndexRoute: typeof ShellCreateIndexRoute
 }
 
 const ShellCreateRouteChildren: ShellCreateRouteChildren = {
+  ShellCreateReviewRoute: ShellCreateReviewRoute,
   ShellCreateIndexRoute: ShellCreateIndexRoute,
 }
 
@@ -169,6 +220,7 @@ interface ShellRouteChildren {
   ShellChatRoute: typeof ShellChatRoute
   ShellCreateRoute: typeof ShellCreateRouteWithChildren
   ShellHomeRoute: typeof ShellHomeRoute
+  ShellLibraryRoute: typeof ShellLibraryRoute
 }
 
 const ShellRouteChildren: ShellRouteChildren = {
@@ -176,6 +228,7 @@ const ShellRouteChildren: ShellRouteChildren = {
   ShellChatRoute: ShellChatRoute,
   ShellCreateRoute: ShellCreateRouteWithChildren,
   ShellHomeRoute: ShellHomeRoute,
+  ShellLibraryRoute: ShellLibraryRoute,
 }
 
 const ShellRouteWithChildren = ShellRoute._addFileChildren(ShellRouteChildren)
