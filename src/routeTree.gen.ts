@@ -11,8 +11,19 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ShellRouteImport } from './routes/_shell'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as OnboardingRouteImport } from './routes/onboarding'
 import { Route as ShellBrainRouteImport } from './routes/_shell.brain'
+import { Route as ShellChatRouteImport } from './routes/_shell.chat'
+import { Route as ShellConnectionsRouteImport } from './routes/_shell.connections'
+import { Route as ShellCreateRouteImport } from './routes/_shell.create'
 import { Route as ShellHomeRouteImport } from './routes/_shell.home'
+import { Route as ShellLibraryRouteImport } from './routes/_shell.library'
+import { Route as ShellSettingsRouteImport } from './routes/_shell.settings'
+import { Route as ShellConnectionsIndexRouteImport } from './routes/_shell.connections.index'
+import { Route as ShellConnectionsLinkedinRouteImport } from './routes/_shell.connections.linkedin'
+import { Route as ShellCreateIndexRouteImport } from './routes/_shell.create.index'
+import { Route as ShellCreateReviewRouteImport } from './routes/_shell.create.review'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -23,9 +34,34 @@ const ShellRoute = ShellRouteImport.update({
   id: '/_shell',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OnboardingRoute = OnboardingRouteImport.update({
+  id: '/onboarding',
+  path: '/onboarding',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ShellBrainRoute = ShellBrainRouteImport.update({
   id: '/brain',
   path: '/brain',
+  getParentRoute: () => ShellRoute,
+} as any)
+const ShellChatRoute = ShellChatRouteImport.update({
+  id: '/chat',
+  path: '/chat',
+  getParentRoute: () => ShellRoute,
+} as any)
+const ShellConnectionsRoute = ShellConnectionsRouteImport.update({
+  id: '/connections',
+  path: '/connections',
+  getParentRoute: () => ShellRoute,
+} as any)
+const ShellCreateRoute = ShellCreateRouteImport.update({
+  id: '/create',
+  path: '/create',
   getParentRoute: () => ShellRoute,
 } as any)
 const ShellHomeRoute = ShellHomeRouteImport.update({
@@ -33,35 +69,141 @@ const ShellHomeRoute = ShellHomeRouteImport.update({
   path: '/home',
   getParentRoute: () => ShellRoute,
 } as any)
+const ShellLibraryRoute = ShellLibraryRouteImport.update({
+  id: '/library',
+  path: '/library',
+  getParentRoute: () => ShellRoute,
+} as any)
+const ShellSettingsRoute = ShellSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => ShellRoute,
+} as any)
+const ShellConnectionsIndexRoute = ShellConnectionsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => ShellConnectionsRoute,
+} as any)
+const ShellConnectionsLinkedinRoute =
+  ShellConnectionsLinkedinRouteImport.update({
+    id: '/linkedin',
+    path: '/linkedin',
+    getParentRoute: () => ShellConnectionsRoute,
+  } as any)
+const ShellCreateIndexRoute = ShellCreateIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => ShellCreateRoute,
+} as any)
+const ShellCreateReviewRoute = ShellCreateReviewRouteImport.update({
+  id: '/review',
+  path: '/review',
+  getParentRoute: () => ShellCreateRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/onboarding': typeof OnboardingRoute
   '/brain': typeof ShellBrainRoute
+  '/chat': typeof ShellChatRoute
+  '/connections': typeof ShellConnectionsRouteWithChildren
+  '/create': typeof ShellCreateRouteWithChildren
   '/home': typeof ShellHomeRoute
+  '/library': typeof ShellLibraryRoute
+  '/settings': typeof ShellSettingsRoute
+  '/connections/linkedin': typeof ShellConnectionsLinkedinRoute
+  '/create/review': typeof ShellCreateReviewRoute
+  '/connections/': typeof ShellConnectionsIndexRoute
+  '/create/': typeof ShellCreateIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/onboarding': typeof OnboardingRoute
   '/brain': typeof ShellBrainRoute
+  '/chat': typeof ShellChatRoute
   '/home': typeof ShellHomeRoute
+  '/library': typeof ShellLibraryRoute
+  '/settings': typeof ShellSettingsRoute
+  '/connections/linkedin': typeof ShellConnectionsLinkedinRoute
+  '/create/review': typeof ShellCreateReviewRoute
+  '/connections': typeof ShellConnectionsIndexRoute
+  '/create': typeof ShellCreateIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_shell': typeof ShellRouteWithChildren
+  '/auth': typeof AuthRoute
+  '/onboarding': typeof OnboardingRoute
   '/_shell/brain': typeof ShellBrainRoute
+  '/_shell/chat': typeof ShellChatRoute
+  '/_shell/connections': typeof ShellConnectionsRouteWithChildren
+  '/_shell/create': typeof ShellCreateRouteWithChildren
   '/_shell/home': typeof ShellHomeRoute
+  '/_shell/library': typeof ShellLibraryRoute
+  '/_shell/settings': typeof ShellSettingsRoute
+  '/_shell/connections/linkedin': typeof ShellConnectionsLinkedinRoute
+  '/_shell/create/review': typeof ShellCreateReviewRoute
+  '/_shell/connections/': typeof ShellConnectionsIndexRoute
+  '/_shell/create/': typeof ShellCreateIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/brain' | '/home'
+  fullPaths:
+    | '/'
+    | '/auth'
+    | '/onboarding'
+    | '/brain'
+    | '/chat'
+    | '/connections'
+    | '/create'
+    | '/home'
+    | '/library'
+    | '/settings'
+    | '/connections/linkedin'
+    | '/create/review'
+    | '/connections/'
+    | '/create/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/brain' | '/home'
-  id: '__root__' | '/' | '/_shell' | '/_shell/brain' | '/_shell/home'
+  to:
+    | '/'
+    | '/auth'
+    | '/onboarding'
+    | '/brain'
+    | '/chat'
+    | '/home'
+    | '/library'
+    | '/settings'
+    | '/connections/linkedin'
+    | '/create/review'
+    | '/connections'
+    | '/create'
+  id:
+    | '__root__'
+    | '/'
+    | '/_shell'
+    | '/auth'
+    | '/onboarding'
+    | '/_shell/brain'
+    | '/_shell/chat'
+    | '/_shell/connections'
+    | '/_shell/create'
+    | '/_shell/home'
+    | '/_shell/library'
+    | '/_shell/settings'
+    | '/_shell/connections/linkedin'
+    | '/_shell/create/review'
+    | '/_shell/connections/'
+    | '/_shell/create/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ShellRoute: typeof ShellRouteWithChildren
+  AuthRoute: typeof AuthRoute
+  OnboardingRoute: typeof OnboardingRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -80,11 +222,46 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ShellRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/onboarding': {
+      id: '/onboarding'
+      path: '/onboarding'
+      fullPath: '/onboarding'
+      preLoaderRoute: typeof OnboardingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_shell/brain': {
       id: '/_shell/brain'
       path: '/brain'
       fullPath: '/brain'
       preLoaderRoute: typeof ShellBrainRouteImport
+      parentRoute: typeof ShellRoute
+    }
+    '/_shell/chat': {
+      id: '/_shell/chat'
+      path: '/chat'
+      fullPath: '/chat'
+      preLoaderRoute: typeof ShellChatRouteImport
+      parentRoute: typeof ShellRoute
+    }
+    '/_shell/connections': {
+      id: '/_shell/connections'
+      path: '/connections'
+      fullPath: '/connections'
+      preLoaderRoute: typeof ShellConnectionsRouteImport
+      parentRoute: typeof ShellRoute
+    }
+    '/_shell/create': {
+      id: '/_shell/create'
+      path: '/create'
+      fullPath: '/create'
+      preLoaderRoute: typeof ShellCreateRouteImport
       parentRoute: typeof ShellRoute
     }
     '/_shell/home': {
@@ -94,17 +271,96 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ShellHomeRouteImport
       parentRoute: typeof ShellRoute
     }
+    '/_shell/library': {
+      id: '/_shell/library'
+      path: '/library'
+      fullPath: '/library'
+      preLoaderRoute: typeof ShellLibraryRouteImport
+      parentRoute: typeof ShellRoute
+    }
+    '/_shell/settings': {
+      id: '/_shell/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof ShellSettingsRouteImport
+      parentRoute: typeof ShellRoute
+    }
+    '/_shell/connections/': {
+      id: '/_shell/connections/'
+      path: '/'
+      fullPath: '/connections/'
+      preLoaderRoute: typeof ShellConnectionsIndexRouteImport
+      parentRoute: typeof ShellConnectionsRoute
+    }
+    '/_shell/connections/linkedin': {
+      id: '/_shell/connections/linkedin'
+      path: '/linkedin'
+      fullPath: '/connections/linkedin'
+      preLoaderRoute: typeof ShellConnectionsLinkedinRouteImport
+      parentRoute: typeof ShellConnectionsRoute
+    }
+    '/_shell/create/': {
+      id: '/_shell/create/'
+      path: '/'
+      fullPath: '/create/'
+      preLoaderRoute: typeof ShellCreateIndexRouteImport
+      parentRoute: typeof ShellCreateRoute
+    }
+    '/_shell/create/review': {
+      id: '/_shell/create/review'
+      path: '/review'
+      fullPath: '/create/review'
+      preLoaderRoute: typeof ShellCreateReviewRouteImport
+      parentRoute: typeof ShellCreateRoute
+    }
   }
 }
 
+interface ShellConnectionsRouteChildren {
+  ShellConnectionsLinkedinRoute: typeof ShellConnectionsLinkedinRoute
+  ShellConnectionsIndexRoute: typeof ShellConnectionsIndexRoute
+}
+
+const ShellConnectionsRouteChildren: ShellConnectionsRouteChildren = {
+  ShellConnectionsLinkedinRoute: ShellConnectionsLinkedinRoute,
+  ShellConnectionsIndexRoute: ShellConnectionsIndexRoute,
+}
+
+const ShellConnectionsRouteWithChildren =
+  ShellConnectionsRoute._addFileChildren(ShellConnectionsRouteChildren)
+
+interface ShellCreateRouteChildren {
+  ShellCreateReviewRoute: typeof ShellCreateReviewRoute
+  ShellCreateIndexRoute: typeof ShellCreateIndexRoute
+}
+
+const ShellCreateRouteChildren: ShellCreateRouteChildren = {
+  ShellCreateReviewRoute: ShellCreateReviewRoute,
+  ShellCreateIndexRoute: ShellCreateIndexRoute,
+}
+
+const ShellCreateRouteWithChildren = ShellCreateRoute._addFileChildren(
+  ShellCreateRouteChildren,
+)
+
 interface ShellRouteChildren {
   ShellBrainRoute: typeof ShellBrainRoute
+  ShellChatRoute: typeof ShellChatRoute
+  ShellConnectionsRoute: typeof ShellConnectionsRouteWithChildren
+  ShellCreateRoute: typeof ShellCreateRouteWithChildren
   ShellHomeRoute: typeof ShellHomeRoute
+  ShellLibraryRoute: typeof ShellLibraryRoute
+  ShellSettingsRoute: typeof ShellSettingsRoute
 }
 
 const ShellRouteChildren: ShellRouteChildren = {
   ShellBrainRoute: ShellBrainRoute,
+  ShellChatRoute: ShellChatRoute,
+  ShellConnectionsRoute: ShellConnectionsRouteWithChildren,
+  ShellCreateRoute: ShellCreateRouteWithChildren,
   ShellHomeRoute: ShellHomeRoute,
+  ShellLibraryRoute: ShellLibraryRoute,
+  ShellSettingsRoute: ShellSettingsRoute,
 }
 
 const ShellRouteWithChildren = ShellRoute._addFileChildren(ShellRouteChildren)
@@ -112,6 +368,8 @@ const ShellRouteWithChildren = ShellRoute._addFileChildren(ShellRouteChildren)
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ShellRoute: ShellRouteWithChildren,
+  AuthRoute: AuthRoute,
+  OnboardingRoute: OnboardingRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
