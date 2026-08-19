@@ -1,10 +1,11 @@
+const map: Record<string, { label: string; color: string }> = {
+  connected: { label: "Connected", color: "var(--success)" },
+  available: { label: "Not connected", color: "var(--muted-foreground)" },
+  soon: { label: "Coming soon", color: "var(--warning)" },
+};
+
 export function StatusBadge({ status }: { status: string }) {
-  const map: Record<string, { label: string; color: string }> = {
-    connected: { label: "Connected", color: "var(--success)" },
-    available: { label: "Not connected", color: "var(--muted-foreground)" },
-    soon: { label: "Coming soon", color: "var(--warning)" },
-  };
-  const s = map[status] ?? map.available;
+  const s = map[status] ?? { label: "Not connected", color: "var(--muted-foreground)" };
   return (
     <span
       className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px]"

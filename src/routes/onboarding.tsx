@@ -33,7 +33,7 @@ const prompts = [
 interface Turn { role: "ai" | "user"; text: string }
 
 function Onboarding() {
-  const [turns, setTurns] = useState<Turn[]>([{ role: "ai", text: prompts[0].text }]);
+  const [turns, setTurns] = useState<Turn[]>([{ role: "ai", text: prompts[0]!.text }]);
   const [step, setStep] = useState(0);
   const [input, setInput] = useState("");
   const [thinking, setThinking] = useState(false);
@@ -52,7 +52,7 @@ function Onboarding() {
       setThinking(false);
       if (next < prompts.length) {
         setStep(next);
-        setTurns((t) => [...t, { role: "ai", text: prompts[next].text }]);
+        setTurns((t) => [...t, { role: "ai", text: prompts[next]!.text }]);
       } else {
         setTurns((t) => [
           ...t,

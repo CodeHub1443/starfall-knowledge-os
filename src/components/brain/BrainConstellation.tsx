@@ -28,6 +28,7 @@ export function BrainConstellation({ className, compact = false }: { className?:
           {graph.edges.map(([a, b]) => {
             const na = byId[a];
             const nb = byId[b];
+            if (!na || !nb) return null;
             const on = active === a || active === b;
             return (
               <line
