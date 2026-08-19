@@ -12,7 +12,10 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ShellRouteImport } from './routes/_shell'
 import { Route as ShellBrainRouteImport } from './routes/_shell.brain'
+import { Route as ShellChatRouteImport } from './routes/_shell.chat'
+import { Route as ShellCreateRouteImport } from './routes/_shell.create'
 import { Route as ShellHomeRouteImport } from './routes/_shell.home'
+import { Route as ShellCreateIndexRouteImport } from './routes/_shell.create.index'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -28,35 +31,66 @@ const ShellBrainRoute = ShellBrainRouteImport.update({
   path: '/brain',
   getParentRoute: () => ShellRoute,
 } as any)
+const ShellChatRoute = ShellChatRouteImport.update({
+  id: '/chat',
+  path: '/chat',
+  getParentRoute: () => ShellRoute,
+} as any)
+const ShellCreateRoute = ShellCreateRouteImport.update({
+  id: '/create',
+  path: '/create',
+  getParentRoute: () => ShellRoute,
+} as any)
 const ShellHomeRoute = ShellHomeRouteImport.update({
   id: '/home',
   path: '/home',
   getParentRoute: () => ShellRoute,
 } as any)
+const ShellCreateIndexRoute = ShellCreateIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => ShellCreateRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/brain': typeof ShellBrainRoute
+  '/chat': typeof ShellChatRoute
+  '/create': typeof ShellCreateRouteWithChildren
   '/home': typeof ShellHomeRoute
+  '/create/': typeof ShellCreateIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/brain': typeof ShellBrainRoute
+  '/chat': typeof ShellChatRoute
   '/home': typeof ShellHomeRoute
+  '/create': typeof ShellCreateIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_shell': typeof ShellRouteWithChildren
   '/_shell/brain': typeof ShellBrainRoute
+  '/_shell/chat': typeof ShellChatRoute
+  '/_shell/create': typeof ShellCreateRouteWithChildren
   '/_shell/home': typeof ShellHomeRoute
+  '/_shell/create/': typeof ShellCreateIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/brain' | '/home'
+  fullPaths: '/' | '/brain' | '/chat' | '/create' | '/home' | '/create/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/brain' | '/home'
-  id: '__root__' | '/' | '/_shell' | '/_shell/brain' | '/_shell/home'
+  to: '/' | '/brain' | '/chat' | '/home' | '/create'
+  id:
+    | '__root__'
+    | '/'
+    | '/_shell'
+    | '/_shell/brain'
+    | '/_shell/chat'
+    | '/_shell/create'
+    | '/_shell/home'
+    | '/_shell/create/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -87,6 +121,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ShellBrainRouteImport
       parentRoute: typeof ShellRoute
     }
+    '/_shell/chat': {
+      id: '/_shell/chat'
+      path: '/chat'
+      fullPath: '/chat'
+      preLoaderRoute: typeof ShellChatRouteImport
+      parentRoute: typeof ShellRoute
+    }
+    '/_shell/create': {
+      id: '/_shell/create'
+      path: '/create'
+      fullPath: '/create'
+      preLoaderRoute: typeof ShellCreateRouteImport
+      parentRoute: typeof ShellRoute
+    }
     '/_shell/home': {
       id: '/_shell/home'
       path: '/home'
@@ -94,16 +142,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ShellHomeRouteImport
       parentRoute: typeof ShellRoute
     }
+    '/_shell/create/': {
+      id: '/_shell/create/'
+      path: '/'
+      fullPath: '/create/'
+      preLoaderRoute: typeof ShellCreateIndexRouteImport
+      parentRoute: typeof ShellCreateRoute
+    }
   }
 }
 
+interface ShellCreateRouteChildren {
+  ShellCreateIndexRoute: typeof ShellCreateIndexRoute
+}
+
+const ShellCreateRouteChildren: ShellCreateRouteChildren = {
+  ShellCreateIndexRoute: ShellCreateIndexRoute,
+}
+
+const ShellCreateRouteWithChildren = ShellCreateRoute._addFileChildren(
+  ShellCreateRouteChildren,
+)
+
 interface ShellRouteChildren {
   ShellBrainRoute: typeof ShellBrainRoute
+  ShellChatRoute: typeof ShellChatRoute
+  ShellCreateRoute: typeof ShellCreateRouteWithChildren
   ShellHomeRoute: typeof ShellHomeRoute
 }
 
 const ShellRouteChildren: ShellRouteChildren = {
   ShellBrainRoute: ShellBrainRoute,
+  ShellChatRoute: ShellChatRoute,
+  ShellCreateRoute: ShellCreateRouteWithChildren,
   ShellHomeRoute: ShellHomeRoute,
 }
 
