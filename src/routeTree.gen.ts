@@ -13,9 +13,13 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as ShellRouteImport } from './routes/_shell'
 import { Route as ShellBrainRouteImport } from './routes/_shell.brain'
 import { Route as ShellChatRouteImport } from './routes/_shell.chat'
+import { Route as ShellConnectionsRouteImport } from './routes/_shell.connections'
 import { Route as ShellCreateRouteImport } from './routes/_shell.create'
 import { Route as ShellHomeRouteImport } from './routes/_shell.home'
 import { Route as ShellLibraryRouteImport } from './routes/_shell.library'
+import { Route as ShellSettingsRouteImport } from './routes/_shell.settings'
+import { Route as ShellConnectionsIndexRouteImport } from './routes/_shell.connections.index'
+import { Route as ShellConnectionsLinkedinRouteImport } from './routes/_shell.connections.linkedin'
 import { Route as ShellCreateIndexRouteImport } from './routes/_shell.create.index'
 import { Route as ShellCreateReviewRouteImport } from './routes/_shell.create.review'
 
@@ -38,6 +42,11 @@ const ShellChatRoute = ShellChatRouteImport.update({
   path: '/chat',
   getParentRoute: () => ShellRoute,
 } as any)
+const ShellConnectionsRoute = ShellConnectionsRouteImport.update({
+  id: '/connections',
+  path: '/connections',
+  getParentRoute: () => ShellRoute,
+} as any)
 const ShellCreateRoute = ShellCreateRouteImport.update({
   id: '/create',
   path: '/create',
@@ -53,6 +62,22 @@ const ShellLibraryRoute = ShellLibraryRouteImport.update({
   path: '/library',
   getParentRoute: () => ShellRoute,
 } as any)
+const ShellSettingsRoute = ShellSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => ShellRoute,
+} as any)
+const ShellConnectionsIndexRoute = ShellConnectionsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => ShellConnectionsRoute,
+} as any)
+const ShellConnectionsLinkedinRoute =
+  ShellConnectionsLinkedinRouteImport.update({
+    id: '/linkedin',
+    path: '/linkedin',
+    getParentRoute: () => ShellConnectionsRoute,
+  } as any)
 const ShellCreateIndexRoute = ShellCreateIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -68,10 +93,14 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/brain': typeof ShellBrainRoute
   '/chat': typeof ShellChatRoute
+  '/connections': typeof ShellConnectionsRouteWithChildren
   '/create': typeof ShellCreateRouteWithChildren
   '/home': typeof ShellHomeRoute
   '/library': typeof ShellLibraryRoute
+  '/settings': typeof ShellSettingsRoute
+  '/connections/linkedin': typeof ShellConnectionsLinkedinRoute
   '/create/review': typeof ShellCreateReviewRoute
+  '/connections/': typeof ShellConnectionsIndexRoute
   '/create/': typeof ShellCreateIndexRoute
 }
 export interface FileRoutesByTo {
@@ -80,7 +109,10 @@ export interface FileRoutesByTo {
   '/chat': typeof ShellChatRoute
   '/home': typeof ShellHomeRoute
   '/library': typeof ShellLibraryRoute
+  '/settings': typeof ShellSettingsRoute
+  '/connections/linkedin': typeof ShellConnectionsLinkedinRoute
   '/create/review': typeof ShellCreateReviewRoute
+  '/connections': typeof ShellConnectionsIndexRoute
   '/create': typeof ShellCreateIndexRoute
 }
 export interface FileRoutesById {
@@ -89,10 +121,14 @@ export interface FileRoutesById {
   '/_shell': typeof ShellRouteWithChildren
   '/_shell/brain': typeof ShellBrainRoute
   '/_shell/chat': typeof ShellChatRoute
+  '/_shell/connections': typeof ShellConnectionsRouteWithChildren
   '/_shell/create': typeof ShellCreateRouteWithChildren
   '/_shell/home': typeof ShellHomeRoute
   '/_shell/library': typeof ShellLibraryRoute
+  '/_shell/settings': typeof ShellSettingsRoute
+  '/_shell/connections/linkedin': typeof ShellConnectionsLinkedinRoute
   '/_shell/create/review': typeof ShellCreateReviewRoute
+  '/_shell/connections/': typeof ShellConnectionsIndexRoute
   '/_shell/create/': typeof ShellCreateIndexRoute
 }
 export interface FileRouteTypes {
@@ -101,10 +137,14 @@ export interface FileRouteTypes {
     | '/'
     | '/brain'
     | '/chat'
+    | '/connections'
     | '/create'
     | '/home'
     | '/library'
+    | '/settings'
+    | '/connections/linkedin'
     | '/create/review'
+    | '/connections/'
     | '/create/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -113,7 +153,10 @@ export interface FileRouteTypes {
     | '/chat'
     | '/home'
     | '/library'
+    | '/settings'
+    | '/connections/linkedin'
     | '/create/review'
+    | '/connections'
     | '/create'
   id:
     | '__root__'
@@ -121,10 +164,14 @@ export interface FileRouteTypes {
     | '/_shell'
     | '/_shell/brain'
     | '/_shell/chat'
+    | '/_shell/connections'
     | '/_shell/create'
     | '/_shell/home'
     | '/_shell/library'
+    | '/_shell/settings'
+    | '/_shell/connections/linkedin'
     | '/_shell/create/review'
+    | '/_shell/connections/'
     | '/_shell/create/'
   fileRoutesById: FileRoutesById
 }
@@ -163,6 +210,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ShellChatRouteImport
       parentRoute: typeof ShellRoute
     }
+    '/_shell/connections': {
+      id: '/_shell/connections'
+      path: '/connections'
+      fullPath: '/connections'
+      preLoaderRoute: typeof ShellConnectionsRouteImport
+      parentRoute: typeof ShellRoute
+    }
     '/_shell/create': {
       id: '/_shell/create'
       path: '/create'
@@ -184,6 +238,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ShellLibraryRouteImport
       parentRoute: typeof ShellRoute
     }
+    '/_shell/settings': {
+      id: '/_shell/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof ShellSettingsRouteImport
+      parentRoute: typeof ShellRoute
+    }
+    '/_shell/connections/': {
+      id: '/_shell/connections/'
+      path: '/'
+      fullPath: '/connections/'
+      preLoaderRoute: typeof ShellConnectionsIndexRouteImport
+      parentRoute: typeof ShellConnectionsRoute
+    }
+    '/_shell/connections/linkedin': {
+      id: '/_shell/connections/linkedin'
+      path: '/linkedin'
+      fullPath: '/connections/linkedin'
+      preLoaderRoute: typeof ShellConnectionsLinkedinRouteImport
+      parentRoute: typeof ShellConnectionsRoute
+    }
     '/_shell/create/': {
       id: '/_shell/create/'
       path: '/'
@@ -200,6 +275,19 @@ declare module '@tanstack/react-router' {
     }
   }
 }
+
+interface ShellConnectionsRouteChildren {
+  ShellConnectionsLinkedinRoute: typeof ShellConnectionsLinkedinRoute
+  ShellConnectionsIndexRoute: typeof ShellConnectionsIndexRoute
+}
+
+const ShellConnectionsRouteChildren: ShellConnectionsRouteChildren = {
+  ShellConnectionsLinkedinRoute: ShellConnectionsLinkedinRoute,
+  ShellConnectionsIndexRoute: ShellConnectionsIndexRoute,
+}
+
+const ShellConnectionsRouteWithChildren =
+  ShellConnectionsRoute._addFileChildren(ShellConnectionsRouteChildren)
 
 interface ShellCreateRouteChildren {
   ShellCreateReviewRoute: typeof ShellCreateReviewRoute
@@ -218,17 +306,21 @@ const ShellCreateRouteWithChildren = ShellCreateRoute._addFileChildren(
 interface ShellRouteChildren {
   ShellBrainRoute: typeof ShellBrainRoute
   ShellChatRoute: typeof ShellChatRoute
+  ShellConnectionsRoute: typeof ShellConnectionsRouteWithChildren
   ShellCreateRoute: typeof ShellCreateRouteWithChildren
   ShellHomeRoute: typeof ShellHomeRoute
   ShellLibraryRoute: typeof ShellLibraryRoute
+  ShellSettingsRoute: typeof ShellSettingsRoute
 }
 
 const ShellRouteChildren: ShellRouteChildren = {
   ShellBrainRoute: ShellBrainRoute,
   ShellChatRoute: ShellChatRoute,
+  ShellConnectionsRoute: ShellConnectionsRouteWithChildren,
   ShellCreateRoute: ShellCreateRouteWithChildren,
   ShellHomeRoute: ShellHomeRoute,
   ShellLibraryRoute: ShellLibraryRoute,
+  ShellSettingsRoute: ShellSettingsRoute,
 }
 
 const ShellRouteWithChildren = ShellRoute._addFileChildren(ShellRouteChildren)

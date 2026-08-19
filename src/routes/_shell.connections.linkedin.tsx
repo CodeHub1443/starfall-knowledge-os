@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ShieldCheck } from "lucide-react";
 import { GlowButton } from "@/components/brain/GlowButton";
 import { PageHeader } from "@/components/layout/AppShell";
-import { StatusBadge } from "./_shell.connections.index";
+import { StatusBadge } from "@/components/brain/StatusBadge";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/_shell/connections/linkedin")({
